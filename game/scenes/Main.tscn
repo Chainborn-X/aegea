@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://aegea_mvp_main"]
+[gd_scene load_steps=3 format=3 uid="uid://aegea_mvp_main"]
 
 [ext_resource type="Script" path="res://scripts/GameManager.cs" id="1_game_manager"]
+[ext_resource type="Texture2D" path="res://assets/tilesets/aegea_coast_chunk_sample_scene.png" id="2_editor_preview"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_game_manager")
+
+[node name="EditorCoastPreview" type="Sprite2D" parent="."]
+texture = ExtResource("2_editor_preview")
+centered = false

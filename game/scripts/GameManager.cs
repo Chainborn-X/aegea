@@ -18,6 +18,7 @@ public partial class GameManager : Node2D
         Instance = this;
         GD.Randomize();
         RegisterInputActions();
+        RemoveEditorPreview();
 
         Dialogue = new DialogueController { Name = "Dialogue" };
         Quests = new QuestTracker { Name = "QuestTracker" };
@@ -32,6 +33,18 @@ public partial class GameManager : Node2D
         AddChild(_ui);
         _ui.Bind(Player, Quests, Dialogue);
         ShowNotification("Find the Old Shrine Key");
+    }
+
+    private void RemoveEditorPreview()
+    {
+        CanvasItem? preview = GetNodeOrNull<CanvasItem>("EditorCoastPreview");
+        if (preview is null)
+        {
+            return;
+        }
+
+        preview.Visible = false;
+        preview.QueueFree();
     }
 
     public override void _ExitTree()
