@@ -15,6 +15,18 @@ Primary visual influences:
 
 The art direction should be premium indie RPG: painterly, readable, warm, and full of environmental storytelling.
 
+The goal is not retro imitation. Aegea should preserve the wonder of classic top-down action RPGs while adding smoother lighting, richer environments, stronger atmosphere, and more cinematic composition.
+
+## Core Style Statement
+
+Hand-painted top-down action RPG art set in a mythological Mediterranean world inspired by ancient Greece. Lush overgrown ruins, bright turquoise seas, warm sunlight, atmospheric caves, painterly textures, rich vegetation, cinematic lighting, exploration-focused composition, small lone adventurer, sense of freedom, loneliness, wonder, mystery, and discovery.
+
+## Production Rule
+
+Concept art is allowed to cheat. Production art must be constructible.
+
+Vision art may use unique shapes, dramatic compositions, and custom lighting to define the feeling. Production art must be broken down into reusable tiles, props, decals, vegetation, modular architecture, lighting rules, and animation layers.
+
 ## Core Principles
 
 ### Nature Reclaims Civilization

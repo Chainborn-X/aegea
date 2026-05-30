@@ -6,6 +6,8 @@ Aegea is a top-down action RPG about exploring a forgotten mythological Mediterr
 
 The player begins alone near the sea. There is no crowded tutorial village, no immediate party, and no dense exposition. The first promise is space: coastline, wind, ruins, birds, water, distant landforms, and the possibility that any visible path might lead somewhere meaningful.
 
+The game should make the player feel small, free, curious, and slightly alone. The world is beautiful, ancient, dangerous, and full of hidden meaning.
+
 ## Emotional Core
 
 > I am alone. The world is vast. Something incredible is waiting beyond the next hill.
@@ -57,6 +59,8 @@ These references are not templates to copy. They identify the desired emotional 
 
 Aegea is not historical Greece. It is a mythological world inspired by Greece.
 
+Aegea is mythological rather than historical, beautiful before it is dangerous, lonely without being bleak, ancient without being dusty, mysterious without being vague, and exploration-first rather than combat-first.
+
 Avoid:
 
 - Generic medieval castles, taverns, knights, and feudal fantasy shorthand.
@@ -73,3 +77,11 @@ Prefer:
 - Mythological creatures that feel ancient and regionally grounded.
 - Quiet moments between danger.
 - Distant landmarks that create goals without quest markers.
+
+## Design North Star
+
+Aegea should make the player constantly ask:
+
+> Can I go there?
+
+Visible paths, unreachable cliffs, cave mouths, distant islands, broken temples, half-hidden ruins, and strange landmarks should create a constant pull toward exploration.

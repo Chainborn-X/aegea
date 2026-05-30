@@ -6,6 +6,8 @@ The player character should often be visually dwarfed by cliffs, trees, columns,
 
 Composition should create a sense that the playable area is only a small visible piece of a larger world.
 
+The hero is a small presence in a large world. Scenes should preserve scale, silence, and distance.
+
 ## Discovery Through Layering
 
 Scenes should contain readable foreground, midground, and background information even in top-down presentation.
@@ -29,3 +31,15 @@ Not every area should be dense. Empty shorelines, quiet groves, wind-swept ruins
 ## Hope Through Light
 
 Even ruins and dangerous areas should contain warmth, sky, reflective water, flowers, or lamps. Beauty should persist.
+
+Danger should live underneath beauty. Even hostile places should have visual richness and mythic allure.
+
+## Pillar Checklist
+
+- Lonely mythic adventure.
+- Nature reclaims civilization.
+- Sunlit Mediterranean wonder.
+- Ancient ruins with mystery.
+- Player is small, world is vast.
+- Every screen suggests discovery.
+- Beauty first, danger underneath.
