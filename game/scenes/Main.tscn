@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scripts/Entities/EnemyController.cs" id="8_enemy"]
 [ext_resource type="Script" path="res://scripts/Entities/DestructiblePlant.cs" id="9_plant"]
 [ext_resource type="Script" path="res://scripts/Inventory/Pickup.cs" id="10_pickup"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/player_traveler_4dir_frames.tres" id="11_player_frames"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wp0k4"]
 texture = ExtResource("3_lhr70")
@@ -283,6 +284,13 @@ script = ExtResource("4_player")
 zoom = Vector2(2.2, 2.2)
 position_smoothing_enabled = true
 position_smoothing_speed = 7.0
+
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="Player"]
+position = Vector2(0, -14)
+scale = Vector2(0.24, 0.24)
+z_index = 10
+sprite_frames = ExtResource("11_player_frames")
+animation = &"idle_down"
 
 [node name="OracleStone" type="Area2D" parent="." unique_id=513820968]
 position = Vector2(930, 382)

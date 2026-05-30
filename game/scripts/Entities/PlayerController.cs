@@ -5,6 +5,10 @@ namespace Aegea;
 
 public partial class PlayerController : CharacterBody2D
 {
+    private const string PlayerSpriteFramesPath = "res://assets/characters/player_traveler_4dir_frames.tres";
+    private const string PlayerSpriteSheetPath = "res://assets/characters/player_traveler_4dir_sheet.png";
+    private static readonly Vector2I PlayerSpriteFrameSize = new(192, 256);
+
     [Signal] public delegate void StaminaChangedEventHandler(float current, float max);
     [Signal] public delegate void InteractionPromptChangedEventHandler(string prompt);
     [Signal] public delegate void PlayerStateChangedEventHandler(string state);
@@ -16,6 +20,7 @@ public partial class PlayerController : CharacterBody2D
     [Export] public float MaxStamina { get; set; } = 5f;
     [Export] public float AttackCooldownSeconds { get; set; } = 0.34f;
     [Export] public float AttackActiveSeconds { get; set; } = 0.14f;
+    [Export] public bool UseSpriteSheet { get; set; } = true;
 
     public Damageable Health { get; private set; } = null!;
     public InventoryComponent Inventory { get; private set; } = null!;
@@ -24,6 +29,7 @@ public partial class PlayerController : CharacterBody2D
 
     private AttackHitbox _attackHitbox = null!;
     private Area2D _interactionSensor = null!;
+    private AnimatedSprite2D? _sprite;
     private float _stamina;
     private float _attackCooldownTimer;
     private float _attackStateTimer;
@@ -58,6 +64,7 @@ public partial class PlayerController : CharacterBody2D
         _interactionSensor.AddChild(new CollisionShape2D { Shape = new CircleShape2D { Radius = 38 } });
         AddChild(_interactionSensor);
 
+        SetupSprite();
         EmitSignal(SignalName.StaminaChanged, _stamina, MaxStamina);
     }
 
@@ -102,6 +109,7 @@ public partial class PlayerController : CharacterBody2D
         }
 
         RefreshPrompt(dt);
+        UpdateSpriteAnimation();
         QueueRedraw();
     }
 
@@ -150,6 +158,11 @@ public partial class PlayerController : CharacterBody2D
 
     public override void _Draw()
     {
+        if (UseSpriteSheet && _sprite is not null)
+        {
+            return;
+        }
+
         Color tunic = _state switch
         {
             "hurt" => new Color(1f, 0.55f, 0.48f),
@@ -240,6 +253,114 @@ public partial class PlayerController : CharacterBody2D
 
         _state = state;
         EmitSignal(SignalName.PlayerStateChanged, _state);
+        UpdateSpriteAnimation();
+    }
+
+    private void SetupSprite()
+    {
+        if (!UseSpriteSheet)
+        {
+            return;
+        }
+
+        _sprite = GetNodeOrNull<AnimatedSprite2D>("PlayerSprite") ?? new AnimatedSprite2D { Name = "PlayerSprite" };
+        if (_sprite.GetParent() is null)
+        {
+            AddChild(_sprite);
+        }
+
+        _sprite.SpriteFrames ??= LoadPlayerSpriteFrames();
+        _sprite.Scale = new Vector2(0.24f, 0.24f);
+        _sprite.Position = new Vector2(0, -14);
+        _sprite.ZIndex = 10;
+        _sprite.Play("idle_down");
+    }
+
+    private static SpriteFrames LoadPlayerSpriteFrames()
+    {
+        return ResourceLoader.Exists(PlayerSpriteFramesPath)
+            ? GD.Load<SpriteFrames>(PlayerSpriteFramesPath)
+            : BuildSpriteFrames(LoadPlayerSpriteSheet());
+    }
+
+    private static Texture2D LoadPlayerSpriteSheet()
+    {
+        return ResourceLoader.Exists(PlayerSpriteSheetPath)
+            ? GD.Load<Texture2D>(PlayerSpriteSheetPath)
+            : ImageTexture.CreateFromImage(Image.LoadFromFile(PlayerSpriteSheetPath));
+    }
+
+    private static SpriteFrames BuildSpriteFrames(Texture2D sheet)
+    {
+        var frames = new SpriteFrames();
+        if (frames.HasAnimation("default"))
+        {
+            frames.RemoveAnimation("default");
+        }
+
+        AddDirectionalAnimation(frames, sheet, "idle", [0], 1.0, true);
+        AddDirectionalAnimation(frames, sheet, "walk", [0, 1, 2, 3], 6.0, true);
+        AddDirectionalAnimation(frames, sheet, "run", [0, 1, 2, 3], 9.0, true);
+        AddDirectionalAnimation(frames, sheet, "attack", [4, 5], 10.0, false);
+        AddDirectionalAnimation(frames, sheet, "hurt", [6], 1.0, false);
+        AddDirectionalAnimation(frames, sheet, "death", [7], 1.0, false);
+        return frames;
+    }
+
+    private static void AddDirectionalAnimation(SpriteFrames frames, Texture2D sheet, string animation, int[] columns, double speed, bool loop)
+    {
+        string[] directions = ["down", "left", "right", "up"];
+        for (int row = 0; row < directions.Length; row++)
+        {
+            string animationName = $"{animation}_{directions[row]}";
+            frames.AddAnimation(animationName);
+            frames.SetAnimationSpeed(animationName, speed);
+            frames.SetAnimationLoop(animationName, loop);
+            foreach (int column in columns)
+            {
+                frames.AddFrame(animationName, CreateFrame(sheet, column, row), 1f, -1);
+            }
+        }
+    }
+
+    private static AtlasTexture CreateFrame(Texture2D sheet, int column, int row)
+    {
+        return new AtlasTexture
+        {
+            Atlas = sheet,
+            Region = new Rect2(column * PlayerSpriteFrameSize.X, row * PlayerSpriteFrameSize.Y, PlayerSpriteFrameSize.X, PlayerSpriteFrameSize.Y)
+        };
+    }
+
+    private void UpdateSpriteAnimation()
+    {
+        if (_sprite is null)
+        {
+            return;
+        }
+
+        string animationName = $"{_state}_{GetDirectionName()}";
+        if (_sprite.SpriteFrames is null || !_sprite.SpriteFrames.HasAnimation(animationName))
+        {
+            return;
+        }
+
+        if (_sprite.Animation == animationName && _sprite.IsPlaying())
+        {
+            return;
+        }
+
+        _sprite.Play(animationName);
+    }
+
+    private string GetDirectionName()
+    {
+        if (Mathf.Abs(FacingDirection.X) > Mathf.Abs(FacingDirection.Y))
+        {
+            return FacingDirection.X < 0 ? "left" : "right";
+        }
+
+        return FacingDirection.Y < 0 ? "up" : "down";
     }
 
     private IInteractable? FindBestInteractable()
