@@ -1,5 +1,7 @@
 # Aegea
 
+![Aegea mountain temple vision art](assets/vision-art/aegea-vision-mountain-temple-approach.png)
+
 Aegea is a top-down action RPG set in a forgotten mythological Mediterranean world inspired by ancient Greece.
 
 This repository is the long-term source of truth for the complete game project: creative direction, worldbuilding, game design, technical decisions, source code, artwork, music, level designs, lore, tools, and production assets.
@@ -72,4 +74,10 @@ When adding new work, ask:
 
 ## Current Status
 
-This repository begins as a foundation for vision, worldbuilding, art direction, design, prompt libraries, and future technical work. Production code and assets should grow from these documents rather than replacing them.
+This repository began as a foundation for vision, worldbuilding, art direction, design, prompt libraries, and future technical work. Production code and assets should grow from these documents rather than replacing them.
+
+## Playable MVP
+
+A first Godot 4 C# playable prototype now lives in `game/`.
+
+Open `game/project.godot` in Godot 4 Mono and run the main scene. See `game/README.md` for controls, architecture notes, completed features, limitations, and recommended next milestones.
