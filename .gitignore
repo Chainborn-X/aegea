@@ -1,0 +1,38 @@
+# OS/editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Logs and local environment
+*.log
+.env
+.env.*
+!.env.example
+
+# Build outputs
+dist/
+build/
+out/
+tmp/
+temp/
+coverage/
+
+# Dependency caches
+node_modules/
+.pnpm-store/
+.yarn/
+
+# Game/editor generated folders
+.import/
+.godot/
+Library/
+Temp/
+Obj/
+Logs/
+UserSettings/
+
+# Large raw exports should be tracked through the chosen asset workflow.
+*.psd
+*.kra~
+*.blend1
