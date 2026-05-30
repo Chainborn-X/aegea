@@ -8,6 +8,18 @@ Concept sheet: `res://assets/tilesets/aegea_coast_tileset_concept.png`
 
 Grid: 8 columns by 8 rows, 32px square tiles.
 
+## MVP Coast Chunk Tileset
+
+Runtime texture: `res://assets/tilesets/aegea_coast_chunk_tileset.png`
+
+Visual target: `res://assets/tilesets/aegea_coast_scene_target.png`
+
+Sample scene: `res://assets/tilesets/aegea_coast_chunk_sample_scene.png`
+
+Grid: 12 columns by 8 rows, 128px square chunks.
+
+This is the active MVP scene tileset. It intentionally uses larger painterly chunks instead of tiny repeated stamps, because the coast vision depends on organic shoreline silhouettes, continuous light/shadow, dense vegetation, and broken ruin shapes that do not survive a 32px-only pass.
+
 ## Rows
 
 - Row 0: sand base variations.
@@ -19,4 +31,4 @@ Grid: 8 columns by 8 rows, 32px square tiles.
 - Row 6: Mediterranean vegetation and flower clusters.
 - Row 7: beach props and discovery markers.
 
-The MVP scene builds a Godot 4 `TileSetAtlasSource` from this atlas in `OutdoorArea` and paints separate `TileMapLayer`s for ground and details.
+The older 32px atlas remains as an experimental micro-tile pass. The MVP scene builds a Godot 4 `TileSetAtlasSource` from the 128px chunk atlas in `OutdoorArea`.

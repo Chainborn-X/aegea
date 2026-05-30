@@ -96,7 +96,7 @@ public partial class GameManager : Node2D
         var world = new OutdoorArea { Name = "OutdoorArea" };
         AddChild(world);
 
-        Player = new PlayerController { Name = "Player", GlobalPosition = new Vector2(155, 520) };
+        Player = new PlayerController { Name = "Player", GlobalPosition = new Vector2(560, 585) };
         AddChild(Player);
 
         var camera = new Camera2D
@@ -109,14 +109,14 @@ public partial class GameManager : Node2D
         Player.AddChild(camera);
         camera.MakeCurrent();
 
-        AddOracleStone(new Vector2(548, 314));
-        AddNpc(new Vector2(430, 292));
-        AddSign(new Vector2(340, 612));
-        AddShrineGate(new Vector2(835, 86));
-        AddChest(new Vector2(930, 246));
+        AddOracleStone(new Vector2(930, 382));
+        AddNpc(new Vector2(720, 520));
+        AddSign(new Vector2(520, 642));
+        AddShrineGate(new Vector2(1198, 292));
+        AddChest(new Vector2(1035, 438));
         AddEnemies();
         AddPlants();
-        SpawnPickup(new Vector2(215, 188), "sunleaf_herb", 1);
+        SpawnPickup(new Vector2(790, 610), "sunleaf_herb", 1);
     }
 
     private void AddOracleStone(Vector2 position)
@@ -195,19 +195,19 @@ public partial class GameManager : Node2D
 
     private void AddEnemies()
     {
-        AddChild(new EnemyController { Name = "CorruptedGuardian", GlobalPosition = new Vector2(680, 360) });
-        AddChild(new EnemyController { Name = "ShoreShade", GlobalPosition = new Vector2(480, 520), DetectRadius = 150f, MoveSpeed = 70f });
+        AddChild(new EnemyController { Name = "CorruptedGuardian", GlobalPosition = new Vector2(970, 560) });
+        AddChild(new EnemyController { Name = "ShoreShade", GlobalPosition = new Vector2(640, 735), DetectRadius = 150f, MoveSpeed = 70f });
     }
 
     private void AddPlants()
     {
         Vector2[] grassPositions =
         [
-            new Vector2(220, 260), new Vector2(248, 282), new Vector2(278, 254),
-            new Vector2(620, 238), new Vector2(648, 220), new Vector2(680, 238),
-            new Vector2(560, 444), new Vector2(590, 466), new Vector2(620, 438),
-            new Vector2(888, 220), new Vector2(916, 214), new Vector2(948, 224),
-            new Vector2(930, 270), new Vector2(964, 260), new Vector2(982, 232)
+            new Vector2(652, 560), new Vector2(690, 584), new Vector2(734, 548),
+            new Vector2(815, 455), new Vector2(846, 432), new Vector2(878, 460),
+            new Vector2(1050, 510), new Vector2(1095, 535), new Vector2(1125, 488),
+            new Vector2(640, 710), new Vector2(685, 735), new Vector2(732, 700),
+            new Vector2(890, 650), new Vector2(932, 675), new Vector2(970, 632)
         ];
 
         foreach (Vector2 position in grassPositions)
@@ -224,11 +224,11 @@ public partial class GameManager : Node2D
 
         Vector2[] bushes =
         [
-            new Vector2(866, 250),
-            new Vector2(895, 274),
-            new Vector2(960, 292),
-            new Vector2(746, 172),
-            new Vector2(770, 205)
+            new Vector2(1015, 455),
+            new Vector2(1050, 478),
+            new Vector2(1120, 428),
+            new Vector2(850, 350),
+            new Vector2(890, 380)
         ];
 
         foreach (Vector2 position in bushes)
