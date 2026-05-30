@@ -6,7 +6,7 @@ The slice is a small outdoor shrine-coast area that proves the core loop: explor
 
 ## Run
 
-1. Open `game/project.godot` in Godot 4.4 Mono or another Godot 4.x Mono build.
+1. Open `game/project.godot` in Godot 4.6.3 Mono.
 2. Press Play.
 
 Command line:

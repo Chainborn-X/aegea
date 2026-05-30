@@ -37,8 +37,15 @@ public partial class OutdoorArea : Node2D
 
     public override void _Ready()
     {
-        BuildCoastalChunkTileMap();
-        AddCollisionGeometry();
+        if (GetNodeOrNull<TileMapLayer>("CoastalChunkTileMap") is null)
+        {
+            BuildCoastalChunkTileMap();
+        }
+
+        if (GetNodeOrNull<Node2D>("Collision") is null)
+        {
+            AddCollisionGeometry();
+        }
     }
 
     private void BuildCoastalChunkTileMap()
@@ -87,23 +94,26 @@ public partial class OutdoorArea : Node2D
 
     private void AddCollisionGeometry()
     {
+        var collision = new Node2D { Name = "Collision" };
+        AddChild(collision);
+
         foreach ((Vector2 position, Vector2 size) in _walls)
         {
-            AddStaticRectangle(position, size);
+            AddStaticRectangle(collision, position, size);
         }
 
         foreach ((Vector2 position, float radius) in _rocks)
         {
             var body = new StaticBody2D { Position = position };
             body.AddChild(new CollisionShape2D { Shape = new CircleShape2D { Radius = radius } });
-            AddChild(body);
+            collision.AddChild(body);
         }
     }
 
-    private void AddStaticRectangle(Vector2 position, Vector2 size)
+    private static void AddStaticRectangle(Node parent, Vector2 position, Vector2 size)
     {
         var body = new StaticBody2D { Position = position };
         body.AddChild(new CollisionShape2D { Shape = new RectangleShape2D { Size = size } });
-        AddChild(body);
+        parent.AddChild(body);
     }
 }

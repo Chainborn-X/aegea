@@ -1,4 +1,5 @@
 using Godot;
+using System;
 
 namespace Aegea;
 
@@ -18,7 +19,6 @@ public partial class GameManager : Node2D
         Instance = this;
         GD.Randomize();
         RegisterInputActions();
-        RemoveEditorPreview();
 
         Dialogue = new DialogueController { Name = "Dialogue" };
         Quests = new QuestTracker { Name = "QuestTracker" };
@@ -33,18 +33,6 @@ public partial class GameManager : Node2D
         AddChild(_ui);
         _ui.Bind(Player, Quests, Dialogue);
         ShowNotification("Find the Old Shrine Key");
-    }
-
-    private void RemoveEditorPreview()
-    {
-        CanvasItem? preview = GetNodeOrNull<CanvasItem>("EditorCoastPreview");
-        if (preview is null)
-        {
-            return;
-        }
-
-        preview.Visible = false;
-        preview.QueueFree();
     }
 
     public override void _ExitTree()
@@ -103,38 +91,64 @@ public partial class GameManager : Node2D
 
     private void BuildWorld()
     {
-        var ambience = new CanvasModulate { Color = new Color(0.94f, 0.98f, 0.9f) };
-        AddChild(ambience);
-
-        var world = new OutdoorArea { Name = "OutdoorArea" };
-        AddChild(world);
-
-        Player = new PlayerController { Name = "Player", GlobalPosition = new Vector2(560, 585) };
-        AddChild(Player);
-
-        var camera = new Camera2D
+        GetOrCreateChild("Ambience", () => new CanvasModulate
         {
-            Name = "Camera2D",
-            PositionSmoothingEnabled = true,
-            PositionSmoothingSpeed = 7f,
-            Zoom = new Vector2(2.2f, 2.2f)
-        };
-        Player.AddChild(camera);
-        camera.MakeCurrent();
+            Name = "Ambience",
+            Color = new Color(0.94f, 0.98f, 0.9f)
+        });
 
-        AddOracleStone(new Vector2(930, 382));
-        AddNpc(new Vector2(720, 520));
-        AddSign(new Vector2(520, 642));
-        AddShrineGate(new Vector2(1198, 292));
-        AddChest(new Vector2(1035, 438));
-        AddEnemies();
-        AddPlants();
-        SpawnPickup(new Vector2(790, 610), "sunleaf_herb", 1);
+        GetOrCreateChild("OutdoorArea", () => new OutdoorArea { Name = "OutdoorArea" });
+
+        Player = GetOrCreateChild("Player", () => new PlayerController { Name = "Player", GlobalPosition = new Vector2(560, 585) });
+        EnsurePlayerCamera();
+
+        GetOrCreateChild("OracleStone", CreateOracleStone);
+        GetOrCreateChild("MyrineNpc", CreateNpc);
+        GetOrCreateChild("WeatheredSign", CreateSign);
+        GetOrCreateChild("SaltWornGate", () => new ShrineGateInteractable { Name = "SaltWornGate", GlobalPosition = new Vector2(1198, 292) });
+        GetOrCreateChild("HiddenCedarChest", () => new ChestInteractable { Name = "HiddenCedarChest", GlobalPosition = new Vector2(1035, 438), ItemId = "old_shrine_key" });
+        GetOrCreateChild("CorruptedGuardian", () => new EnemyController { Name = "CorruptedGuardian", GlobalPosition = new Vector2(970, 560) });
+        GetOrCreateChild("ShoreShade", () => new EnemyController { Name = "ShoreShade", GlobalPosition = new Vector2(640, 735), DetectRadius = 150f, MoveSpeed = 70f });
+        GetOrCreateChild("StartingSunleaf", () => new Pickup { Name = "StartingSunleaf", GlobalPosition = new Vector2(790, 610), ItemId = "sunleaf_herb" });
+        EnsureFallbackPlants();
     }
 
-    private void AddOracleStone(Vector2 position)
+    private T GetOrCreateChild<T>(string nodeName, Func<T> create) where T : Node
     {
-        var oracle = new DialogueInteractable
+        T? existing = GetNodeOrNull<T>(nodeName);
+        if (existing is not null)
+        {
+            return existing;
+        }
+
+        T node = create();
+        if (string.IsNullOrWhiteSpace(node.Name))
+        {
+            node.Name = nodeName;
+        }
+
+        AddChild(node);
+        return node;
+    }
+
+    private void EnsurePlayerCamera()
+    {
+        Camera2D? camera = Player.GetNodeOrNull<Camera2D>("Camera2D");
+        if (camera is null)
+        {
+            camera = new Camera2D { Name = "Camera2D" };
+            Player.AddChild(camera);
+        }
+
+        camera.PositionSmoothingEnabled = true;
+        camera.PositionSmoothingSpeed = 7f;
+        camera.Zoom = new Vector2(2.2f, 2.2f);
+        camera.MakeCurrent();
+    }
+
+    private DialogueInteractable CreateOracleStone()
+    {
+        return new DialogueInteractable
         {
             Name = "OracleStone",
             Speaker = "Tide Oracle",
@@ -145,14 +159,13 @@ public partial class GameManager : Node2D
                 "Overgrowth hides small things from impatient hands.",
                 "Cut the laurel bushes east of the stones. Listen for the chest."
             ],
-            GlobalPosition = position
+            GlobalPosition = new Vector2(930, 382)
         };
-        AddChild(oracle);
     }
 
-    private void AddSign(Vector2 position)
+    private DialogueInteractable CreateSign()
     {
-        var sign = new DialogueInteractable
+        return new DialogueInteractable
         {
             Name = "WeatheredSign",
             Speaker = "Weathered Sign",
@@ -162,14 +175,13 @@ public partial class GameManager : Node2D
                 "North: Salt Shrine.",
                 "South: shore road, broken by the last winter tide."
             ],
-            GlobalPosition = position
+            GlobalPosition = new Vector2(520, 642)
         };
-        AddChild(sign);
     }
 
-    private void AddNpc(Vector2 position)
+    private DialogueInteractable CreateNpc()
     {
-        var npc = new DialogueInteractable
+        return new DialogueInteractable
         {
             Name = "MyrineNpc",
             Speaker = "Myrine",
@@ -180,78 +192,44 @@ public partial class GameManager : Node2D
                 "Now the bushes grow fast and the little guardians bite at shadows.",
                 "If you find the old key, do not force the northern gate. Let it wake."
             ],
-            GlobalPosition = position
+            GlobalPosition = new Vector2(720, 520)
         };
-        AddChild(npc);
     }
 
-    private void AddShrineGate(Vector2 position)
+    private void EnsureFallbackPlants()
     {
-        var gate = new ShrineGateInteractable
-        {
-            Name = "SaltWornGate",
-            GlobalPosition = position
-        };
-        AddChild(gate);
-    }
-
-    private void AddChest(Vector2 position)
-    {
-        var chest = new ChestInteractable
-        {
-            Name = "HiddenCedarChest",
-            GlobalPosition = position,
-            ItemId = "old_shrine_key"
-        };
-        AddChild(chest);
-    }
-
-    private void AddEnemies()
-    {
-        AddChild(new EnemyController { Name = "CorruptedGuardian", GlobalPosition = new Vector2(970, 560) });
-        AddChild(new EnemyController { Name = "ShoreShade", GlobalPosition = new Vector2(640, 735), DetectRadius = 150f, MoveSpeed = 70f });
-    }
-
-    private void AddPlants()
-    {
-        Vector2[] grassPositions =
+        (string Name, Vector2 Position, string Kind, string DropItem, float DropChance)[] plants =
         [
-            new Vector2(652, 560), new Vector2(690, 584), new Vector2(734, 548),
-            new Vector2(815, 455), new Vector2(846, 432), new Vector2(878, 460),
-            new Vector2(1050, 510), new Vector2(1095, 535), new Vector2(1125, 488),
-            new Vector2(640, 710), new Vector2(685, 735), new Vector2(732, 700),
-            new Vector2(890, 650), new Vector2(932, 675), new Vector2(970, 632)
+            ("CuttableGrass01", new Vector2(652, 560), "grass", "sunleaf_herb", 0.3f),
+            ("CuttableGrass02", new Vector2(690, 584), "grass", "bronze_coin", 0.3f),
+            ("CuttableGrass03", new Vector2(734, 548), "grass", "sunleaf_herb", 0.3f),
+            ("CuttableGrass04", new Vector2(815, 455), "grass", "bronze_coin", 0.3f),
+            ("CuttableGrass05", new Vector2(846, 432), "grass", "sunleaf_herb", 0.3f),
+            ("CuttableGrass06", new Vector2(878, 460), "grass", "bronze_coin", 0.3f),
+            ("CuttableGrass07", new Vector2(1050, 510), "grass", "sunleaf_herb", 0.3f),
+            ("CuttableGrass08", new Vector2(1095, 535), "grass", "bronze_coin", 0.3f),
+            ("CuttableGrass09", new Vector2(1125, 488), "grass", "sunleaf_herb", 0.3f),
+            ("CuttableGrass10", new Vector2(640, 710), "grass", "bronze_coin", 0.3f),
+            ("CuttableGrass11", new Vector2(685, 735), "grass", "sunleaf_herb", 0.3f),
+            ("CuttableGrass12", new Vector2(732, 700), "grass", "bronze_coin", 0.3f),
+            ("CuttableGrass13", new Vector2(890, 650), "grass", "sunleaf_herb", 0.3f),
+            ("CuttableGrass14", new Vector2(932, 675), "grass", "bronze_coin", 0.3f),
+            ("CuttableGrass15", new Vector2(970, 632), "grass", "sunleaf_herb", 0.3f),
+            ("CuttableBush01", new Vector2(1015, 455), "bush", "laurel_sprig", 0.55f),
+            ("CuttableBush02", new Vector2(1050, 478), "bush", "laurel_sprig", 0.55f),
+            ("CuttableBush03", new Vector2(1120, 428), "bush", "laurel_sprig", 0.55f),
+            ("CuttableBush04", new Vector2(850, 350), "bush", "laurel_sprig", 0.55f),
+            ("CuttableBush05", new Vector2(890, 380), "bush", "laurel_sprig", 0.55f)
         ];
 
-        foreach (Vector2 position in grassPositions)
+        foreach ((string name, Vector2 position, string kind, string dropItem, float dropChance) in plants)
         {
-            AddChild(new DestructiblePlant
+            GetOrCreateChild(name, () => new DestructiblePlant
             {
-                Name = "CuttableGrass",
-                PlantKind = "grass",
-                DropItemId = GD.Randf() > 0.6f ? "sunleaf_herb" : "bronze_coin",
-                DropChance = 0.3f,
-                GlobalPosition = position
-            });
-        }
-
-        Vector2[] bushes =
-        [
-            new Vector2(1015, 455),
-            new Vector2(1050, 478),
-            new Vector2(1120, 428),
-            new Vector2(850, 350),
-            new Vector2(890, 380)
-        ];
-
-        foreach (Vector2 position in bushes)
-        {
-            AddChild(new DestructiblePlant
-            {
-                Name = "CuttableBush",
-                PlantKind = "bush",
-                DropItemId = "laurel_sprig",
-                DropChance = 0.55f,
+                Name = name,
+                PlantKind = kind,
+                DropItemId = dropItem,
+                DropChance = dropChance,
                 GlobalPosition = position
             });
         }

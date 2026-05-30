@@ -1,11 +1,454 @@
-[gd_scene load_steps=3 format=3 uid="uid://aegea_mvp_main"]
+[gd_scene format=4]
 
 [ext_resource type="Script" path="res://scripts/GameManager.cs" id="1_game_manager"]
-[ext_resource type="Texture2D" path="res://assets/tilesets/aegea_coast_chunk_sample_scene.png" id="2_editor_preview"]
+[ext_resource type="Texture2D" path="res://assets/tilesets/aegea_coast_chunk_tileset.png" id="3_lhr70"]
+[ext_resource type="Script" path="res://scripts/World/OutdoorArea.cs" id="3_outdoor_area"]
+[ext_resource type="Script" path="res://scripts/Entities/PlayerController.cs" id="4_player"]
+[ext_resource type="Script" path="res://scripts/Interaction/DialogueInteractable.cs" id="5_dialogue_interactable"]
+[ext_resource type="Script" path="res://scripts/Interaction/ShrineGateInteractable.cs" id="6_shrine_gate"]
+[ext_resource type="Script" path="res://scripts/Interaction/ChestInteractable.cs" id="7_chest"]
+[ext_resource type="Script" path="res://scripts/Entities/EnemyController.cs" id="8_enemy"]
+[ext_resource type="Script" path="res://scripts/Entities/DestructiblePlant.cs" id="9_plant"]
+[ext_resource type="Script" path="res://scripts/Inventory/Pickup.cs" id="10_pickup"]
 
-[node name="Main" type="Node2D"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wp0k4"]
+texture = ExtResource("3_lhr70")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+10:0/0 = 0
+11:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+8:1/0 = 0
+9:1/0 = 0
+10:1/0 = 0
+11:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+8:2/0 = 0
+9:2/0 = 0
+10:2/0 = 0
+11:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+9:3/0 = 0
+10:3/0 = 0
+11:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+8:4/0 = 0
+9:4/0 = 0
+10:4/0 = 0
+11:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+8:5/0 = 0
+9:5/0 = 0
+10:5/0 = 0
+11:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+8:6/0 = 0
+9:6/0 = 0
+10:6/0 = 0
+11:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+5:7/0 = 0
+6:7/0 = 0
+7:7/0 = 0
+8:7/0 = 0
+9:7/0 = 0
+10:7/0 = 0
+11:7/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_bjd11"]
+tile_size = Vector2i(128, 128)
+sources/0 = SubResource("TileSetAtlasSource_wp0k4")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qmy6f"]
+size = Vector2(1536, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mwfav"]
+size = Vector2(1536, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3p2gp"]
+size = Vector2(96, 1024)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cvmbd"]
+size = Vector2(96, 1024)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ft6cd"]
+size = Vector2(350, 95)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bb450"]
+size = Vector2(155, 245)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nfivy"]
+size = Vector2(420, 135)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1nqs0"]
+size = Vector2(150, 405)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1iba3"]
+size = Vector2(105, 190)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yxlcp"]
+size = Vector2(280, 105)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ebg2g"]
+radius = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2ofn6"]
+radius = 28.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xa025"]
+radius = 22.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_36rkl"]
+radius = 24.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fs0b5"]
+radius = 28.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ma7h6"]
+radius = 24.0
+
+[node name="Main" type="Node2D" unique_id=2089545214]
 script = ExtResource("1_game_manager")
 
-[node name="EditorCoastPreview" type="Sprite2D" parent="."]
-texture = ExtResource("2_editor_preview")
-centered = false
+[node name="Ambience" type="CanvasModulate" parent="." unique_id=1932367731]
+color = Color(0.94, 0.98, 0.9, 1)
+
+[node name="OutdoorArea" type="Node2D" parent="." unique_id=1495169586]
+script = ExtResource("3_outdoor_area")
+
+[node name="CoastalChunkTileMap" type="TileMapLayer" parent="OutdoorArea" unique_id=1477365151]
+z_index = -20
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAABAAAAAAACAAAAAAACAAAAAAADAAAAAAADAAAAAAAEAAAAAAAEAAAAAAAFAAAAAAAFAAAAAAAGAAAAAAAGAAAAAAAHAAAAAAAHAAAAAAAIAAAAAAAIAAAAAAAJAAAAAAAJAAAAAAAKAAAAAAAKAAAAAAALAAAAAAALAAAAAAAAAAEAAAAAAAEAAAABAAEAAAABAAEAAAACAAEAAAACAAEAAAADAAEAAAADAAEAAAAEAAEAAAAEAAEAAAAFAAEAAAAFAAEAAAAGAAEAAAAGAAEAAAAHAAEAAAAHAAEAAAAIAAEAAAAIAAEAAAAJAAEAAAAJAAEAAAAKAAEAAAAKAAEAAAALAAEAAAALAAEAAAAAAAIAAAAAAAIAAAABAAIAAAABAAIAAAACAAIAAAACAAIAAAADAAIAAAADAAIAAAAEAAIAAAAEAAIAAAAFAAIAAAAFAAIAAAAGAAIAAAAGAAIAAAAHAAIAAAAHAAIAAAAIAAIAAAAIAAIAAAAJAAIAAAAJAAIAAAAKAAIAAAAKAAIAAAALAAIAAAALAAIAAAAAAAMAAAAAAAMAAAABAAMAAAABAAMAAAACAAMAAAACAAMAAAADAAMAAAADAAMAAAAEAAMAAAAEAAMAAAAFAAMAAAAFAAMAAAAGAAMAAAAGAAMAAAAHAAMAAAAHAAMAAAAIAAMAAAAIAAMAAAAJAAMAAAAJAAMAAAAKAAMAAAAKAAMAAAALAAMAAAALAAMAAAAAAAQAAAAAAAQAAAABAAQAAAABAAQAAAACAAQAAAACAAQAAAADAAQAAAADAAQAAAAEAAQAAAAEAAQAAAAFAAQAAAAFAAQAAAAGAAQAAAAGAAQAAAAHAAQAAAAHAAQAAAAIAAQAAAAIAAQAAAAJAAQAAAAJAAQAAAAKAAQAAAAKAAQAAAALAAQAAAALAAQAAAAAAAUAAAAAAAUAAAABAAUAAAABAAUAAAACAAUAAAACAAUAAAADAAUAAAADAAUAAAAEAAUAAAAEAAUAAAAFAAUAAAAFAAUAAAAGAAUAAAAGAAUAAAAHAAUAAAAHAAUAAAAIAAUAAAAIAAUAAAAJAAUAAAAJAAUAAAAKAAUAAAAKAAUAAAALAAUAAAALAAUAAAAAAAYAAAAAAAYAAAABAAYAAAABAAYAAAACAAYAAAACAAYAAAADAAYAAAADAAYAAAAEAAYAAAAEAAYAAAAFAAYAAAAFAAYAAAAGAAYAAAAGAAYAAAAHAAYAAAAHAAYAAAAIAAYAAAAIAAYAAAAJAAYAAAAJAAYAAAAKAAYAAAAKAAYAAAALAAYAAAALAAYAAAAAAAcAAAAAAAcAAAABAAcAAAABAAcAAAACAAcAAAACAAcAAAADAAcAAAADAAcAAAAEAAcAAAAEAAcAAAAFAAcAAAAFAAcAAAAGAAcAAAAGAAcAAAAHAAcAAAAHAAcAAAAIAAcAAAAIAAcAAAAJAAcAAAAJAAcAAAAKAAcAAAAKAAcAAAALAAcAAAALAAcAAAA=")
+tile_set = SubResource("TileSet_bjd11")
+
+[node name="Collision" type="Node2D" parent="OutdoorArea" unique_id=936976779]
+
+[node name="Wall01" type="StaticBody2D" parent="OutdoorArea/Collision" unique_id=1577474701]
+position = Vector2(768, -56)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutdoorArea/Collision/Wall01" unique_id=632919225]
+shape = SubResource("RectangleShape2D_qmy6f")
+
+[node name="Wall02" type="StaticBody2D" parent="OutdoorArea/Collision" unique_id=731324453]
+position = Vector2(768, 1080)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutdoorArea/Collision/Wall02" unique_id=1833117309]
+shape = SubResource("RectangleShape2D_mwfav")
+
+[node name="Wall03" type="StaticBody2D" parent="OutdoorArea/Collision" unique_id=401108291]
+position = Vector2(-56, 512)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutdoorArea/Collision/Wall03" unique_id=123228721]
+shape = SubResource("RectangleShape2D_3p2gp")
+
+[node name="Wall04" type="StaticBody2D" parent="OutdoorArea/Collision" unique_id=1403500200]
+position = Vector2(1592, 512)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutdoorArea/Collision/Wall04" unique_id=367950741]
+shape = SubResource("RectangleShape2D_cvmbd")
+
+[node name="Wall05" type="StaticBody2D" parent="OutdoorArea/Collision" unique_id=1738314215]
+position = Vector2(585, 130)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutdoorArea/Collision/Wall05" unique_id=2010134565]
+shape = SubResource("RectangleShape2D_ft6cd")
+
+[node name="Wall06" type="StaticBody2D" parent="OutdoorArea/Collision" unique_id=1699194468]
+position = Vector2(900, 218)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutdoorArea/Collision/Wall06" unique_id=388461338]
+shape = SubResource("RectangleShape2D_bb450")
+
+[node name="Wall07" type="StaticBody2D" parent="OutdoorArea/Collision" unique_id=355932258]
+position = Vector2(1190, 185)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutdoorArea/Collision/Wall07" unique_id=2100745978]
+shape = SubResource("RectangleShape2D_nfivy")
+
+[node name="Wall08" type="StaticBody2D" parent="OutdoorArea/Collision" unique_id=1981172022]
+position = Vector2(1285, 485)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutdoorArea/Collision/Wall08" unique_id=428106555]
+shape = SubResource("RectangleShape2D_1nqs0")
+
+[node name="Wall09" type="StaticBody2D" parent="OutdoorArea/Collision" unique_id=1518720529]
+position = Vector2(410, 674)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutdoorArea/Collision/Wall09" unique_id=2119263251]
+shape = SubResource("RectangleShape2D_1iba3")
+
+[node name="Wall10" type="StaticBody2D" parent="OutdoorArea/Collision" unique_id=572828860]
+position = Vector2(735, 780)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutdoorArea/Collision/Wall10" unique_id=1566451964]
+shape = SubResource("RectangleShape2D_yxlcp")
+
+[node name="Rock01" type="StaticBody2D" parent="OutdoorArea/Collision" unique_id=1094834968]
+position = Vector2(315, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutdoorArea/Collision/Rock01" unique_id=295910079]
+shape = SubResource("CircleShape2D_ebg2g")
+
+[node name="Rock02" type="StaticBody2D" parent="OutdoorArea/Collision" unique_id=881391682]
+position = Vector2(390, 402)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutdoorArea/Collision/Rock02" unique_id=2142644089]
+shape = SubResource("CircleShape2D_2ofn6")
+
+[node name="Rock03" type="StaticBody2D" parent="OutdoorArea/Collision" unique_id=752268001]
+position = Vector2(492, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutdoorArea/Collision/Rock03" unique_id=1621775110]
+shape = SubResource("CircleShape2D_xa025")
+
+[node name="Rock04" type="StaticBody2D" parent="OutdoorArea/Collision" unique_id=82913298]
+position = Vector2(760, 514)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutdoorArea/Collision/Rock04" unique_id=1434411465]
+shape = SubResource("CircleShape2D_36rkl")
+
+[node name="Rock05" type="StaticBody2D" parent="OutdoorArea/Collision" unique_id=1484049672]
+position = Vector2(1060, 650)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutdoorArea/Collision/Rock05" unique_id=2109113713]
+shape = SubResource("CircleShape2D_fs0b5")
+
+[node name="Rock06" type="StaticBody2D" parent="OutdoorArea/Collision" unique_id=1539814001]
+position = Vector2(1185, 715)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutdoorArea/Collision/Rock06" unique_id=17310247]
+shape = SubResource("CircleShape2D_ma7h6")
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=1274962999]
+position = Vector2(560, 585)
+script = ExtResource("4_player")
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1376804974]
+zoom = Vector2(2.2, 2.2)
+position_smoothing_enabled = true
+position_smoothing_speed = 7.0
+
+[node name="OracleStone" type="Area2D" parent="." unique_id=513820968]
+position = Vector2(930, 382)
+script = ExtResource("5_dialogue_interactable")
+Speaker = "Tide Oracle"
+Prompt = "Listen"
+Lines = PackedStringArray("The road above the shrine is sealed by an old bronze key.", "Overgrowth hides small things from impatient hands.", "Cut the laurel bushes east of the stones. Listen for the chest.")
+
+[node name="MyrineNpc" type="Area2D" parent="." unique_id=1069957956]
+position = Vector2(720, 520)
+script = ExtResource("5_dialogue_interactable")
+Speaker = "Myrine"
+Prompt = "Talk"
+Lines = PackedStringArray("The shrine used to answer at dawn.", "Now the bushes grow fast and the little guardians bite at shadows.", "If you find the old key, do not force the northern gate. Let it wake.")
+
+[node name="WeatheredSign" type="Area2D" parent="." unique_id=265978096]
+position = Vector2(520, 642)
+script = ExtResource("5_dialogue_interactable")
+Speaker = "Weathered Sign"
+Prompt = "Read"
+Lines = PackedStringArray("North: Salt Shrine.", "South: shore road, broken by the last winter tide.")
+
+[node name="SaltWornGate" type="Area2D" parent="." unique_id=378409914]
+position = Vector2(1198, 292)
+script = ExtResource("6_shrine_gate")
+
+[node name="HiddenCedarChest" type="Area2D" parent="." unique_id=435040987]
+position = Vector2(1035, 438)
+script = ExtResource("7_chest")
+
+[node name="CorruptedGuardian" type="CharacterBody2D" parent="." unique_id=867985230]
+position = Vector2(970, 560)
+script = ExtResource("8_enemy")
+
+[node name="ShoreShade" type="CharacterBody2D" parent="." unique_id=1676003351]
+position = Vector2(640, 735)
+script = ExtResource("8_enemy")
+DetectRadius = 150.0
+MoveSpeed = 70.0
+
+[node name="StartingSunleaf" type="Area2D" parent="." unique_id=994373827]
+position = Vector2(790, 610)
+script = ExtResource("10_pickup")
+ItemId = "sunleaf_herb"
+
+[node name="CuttableGrass01" type="StaticBody2D" parent="." unique_id=1133568173]
+position = Vector2(652, 560)
+script = ExtResource("9_plant")
+DropItemId = "sunleaf_herb"
+DropChance = 0.3
+
+[node name="CuttableGrass02" type="StaticBody2D" parent="." unique_id=1767072752]
+position = Vector2(690, 584)
+script = ExtResource("9_plant")
+DropItemId = "bronze_coin"
+DropChance = 0.3
+
+[node name="CuttableGrass03" type="StaticBody2D" parent="." unique_id=1590853741]
+position = Vector2(734, 548)
+script = ExtResource("9_plant")
+DropItemId = "sunleaf_herb"
+DropChance = 0.3
+
+[node name="CuttableGrass04" type="StaticBody2D" parent="." unique_id=412783880]
+position = Vector2(815, 455)
+script = ExtResource("9_plant")
+DropItemId = "bronze_coin"
+DropChance = 0.3
+
+[node name="CuttableGrass05" type="StaticBody2D" parent="." unique_id=449195968]
+position = Vector2(846, 432)
+script = ExtResource("9_plant")
+DropItemId = "sunleaf_herb"
+DropChance = 0.3
+
+[node name="CuttableGrass06" type="StaticBody2D" parent="." unique_id=764271369]
+position = Vector2(878, 460)
+script = ExtResource("9_plant")
+DropItemId = "bronze_coin"
+DropChance = 0.3
+
+[node name="CuttableGrass07" type="StaticBody2D" parent="." unique_id=532286981]
+position = Vector2(1050, 510)
+script = ExtResource("9_plant")
+DropItemId = "sunleaf_herb"
+DropChance = 0.3
+
+[node name="CuttableGrass08" type="StaticBody2D" parent="." unique_id=1135565973]
+position = Vector2(1095, 535)
+script = ExtResource("9_plant")
+DropItemId = "bronze_coin"
+DropChance = 0.3
+
+[node name="CuttableGrass09" type="StaticBody2D" parent="." unique_id=114898088]
+position = Vector2(1125, 488)
+script = ExtResource("9_plant")
+DropItemId = "sunleaf_herb"
+DropChance = 0.3
+
+[node name="CuttableGrass10" type="StaticBody2D" parent="." unique_id=829411838]
+position = Vector2(640, 710)
+script = ExtResource("9_plant")
+DropItemId = "bronze_coin"
+DropChance = 0.3
+
+[node name="CuttableGrass11" type="StaticBody2D" parent="." unique_id=66186014]
+position = Vector2(685, 735)
+script = ExtResource("9_plant")
+DropItemId = "sunleaf_herb"
+DropChance = 0.3
+
+[node name="CuttableGrass12" type="StaticBody2D" parent="." unique_id=419256176]
+position = Vector2(732, 700)
+script = ExtResource("9_plant")
+DropItemId = "bronze_coin"
+DropChance = 0.3
+
+[node name="CuttableGrass13" type="StaticBody2D" parent="." unique_id=171624193]
+position = Vector2(890, 650)
+script = ExtResource("9_plant")
+DropItemId = "sunleaf_herb"
+DropChance = 0.3
+
+[node name="CuttableGrass14" type="StaticBody2D" parent="." unique_id=1546385573]
+position = Vector2(932, 675)
+script = ExtResource("9_plant")
+DropItemId = "bronze_coin"
+DropChance = 0.3
+
+[node name="CuttableGrass15" type="StaticBody2D" parent="." unique_id=1855633133]
+position = Vector2(970, 632)
+script = ExtResource("9_plant")
+DropItemId = "sunleaf_herb"
+DropChance = 0.3
+
+[node name="CuttableBush01" type="StaticBody2D" parent="." unique_id=2016938837]
+position = Vector2(1015, 455)
+script = ExtResource("9_plant")
+PlantKind = "bush"
+DropItemId = "laurel_sprig"
+DropChance = 0.55
+
+[node name="CuttableBush02" type="StaticBody2D" parent="." unique_id=1233714097]
+position = Vector2(1050, 478)
+script = ExtResource("9_plant")
+PlantKind = "bush"
+DropItemId = "laurel_sprig"
+DropChance = 0.55
+
+[node name="CuttableBush03" type="StaticBody2D" parent="." unique_id=261813390]
+position = Vector2(1120, 428)
+script = ExtResource("9_plant")
+PlantKind = "bush"
+DropItemId = "laurel_sprig"
+DropChance = 0.55
+
+[node name="CuttableBush04" type="StaticBody2D" parent="." unique_id=397624687]
+position = Vector2(850, 350)
+script = ExtResource("9_plant")
+PlantKind = "bush"
+DropItemId = "laurel_sprig"
+DropChance = 0.55
+
+[node name="CuttableBush05" type="StaticBody2D" parent="." unique_id=1989696490]
+position = Vector2(890, 380)
+script = ExtResource("9_plant")
+PlantKind = "bush"
+DropItemId = "laurel_sprig"
+DropChance = 0.55
