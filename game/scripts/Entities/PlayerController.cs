@@ -309,7 +309,7 @@ public partial class PlayerController : CharacterBody2D
 
     private static void AddDirectionalAnimation(SpriteFrames frames, Texture2D sheet, string animation, int[] columns, double speed, bool loop)
     {
-        string[] directions = ["down", "left", "right", "up"];
+        string[] directions = ["down", "right", "left", "up"];
         for (int row = 0; row < directions.Length; row++)
         {
             string animationName = $"{animation}_{directions[row]}";

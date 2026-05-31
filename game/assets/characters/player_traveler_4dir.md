@@ -11,8 +11,8 @@ Grid: 8 columns by 4 rows, 192px by 256px frames.
 ## Rows
 
 - Row 0: down-facing frames.
-- Row 1: left-facing frames.
-- Row 2: right-facing frames.
+- Row 1: right-facing frames.
+- Row 2: left-facing frames.
 - Row 3: up-facing frames.
 
 ## Columns
