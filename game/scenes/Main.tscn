@@ -1,15 +1,15 @@
-[gd_scene format=4]
+[gd_scene format=4 uid="uid://bh2jakk305ist"]
 
-[ext_resource type="Script" path="res://scripts/GameManager.cs" id="1_game_manager"]
-[ext_resource type="Texture2D" path="res://assets/tilesets/aegea_coast_chunk_tileset.png" id="3_lhr70"]
-[ext_resource type="Script" path="res://scripts/World/OutdoorArea.cs" id="3_outdoor_area"]
-[ext_resource type="Script" path="res://scripts/Entities/PlayerController.cs" id="4_player"]
-[ext_resource type="Script" path="res://scripts/Interaction/DialogueInteractable.cs" id="5_dialogue_interactable"]
-[ext_resource type="Script" path="res://scripts/Interaction/ShrineGateInteractable.cs" id="6_shrine_gate"]
-[ext_resource type="Script" path="res://scripts/Interaction/ChestInteractable.cs" id="7_chest"]
-[ext_resource type="Script" path="res://scripts/Entities/EnemyController.cs" id="8_enemy"]
-[ext_resource type="Script" path="res://scripts/Entities/DestructiblePlant.cs" id="9_plant"]
-[ext_resource type="Script" path="res://scripts/Inventory/Pickup.cs" id="10_pickup"]
+[ext_resource type="Script" uid="uid://brbretimei2fn" path="res://scripts/GameManager.cs" id="1_game_manager"]
+[ext_resource type="Texture2D" uid="uid://cflsivwgphqwa" path="res://assets/tilesets/aegea_coast_chunk_tileset.png" id="3_lhr70"]
+[ext_resource type="Script" uid="uid://n53s1pyxipr5" path="res://scripts/World/OutdoorArea.cs" id="3_outdoor_area"]
+[ext_resource type="Script" uid="uid://cq0e6gsewgnsq" path="res://scripts/Entities/PlayerController.cs" id="4_player"]
+[ext_resource type="Script" uid="uid://dy31cnqexbsy8" path="res://scripts/Interaction/DialogueInteractable.cs" id="5_dialogue_interactable"]
+[ext_resource type="Script" uid="uid://c1lpj722dlqxu" path="res://scripts/Interaction/ShrineGateInteractable.cs" id="6_shrine_gate"]
+[ext_resource type="Script" uid="uid://cgn04005g3qwg" path="res://scripts/Interaction/ChestInteractable.cs" id="7_chest"]
+[ext_resource type="Script" uid="uid://de757otc84oq5" path="res://scripts/Entities/EnemyController.cs" id="8_enemy"]
+[ext_resource type="Script" uid="uid://c55hkdabqapum" path="res://scripts/Entities/DestructiblePlant.cs" id="9_plant"]
+[ext_resource type="Script" uid="uid://bso8f3iagu1jt" path="res://scripts/Inventory/Pickup.cs" id="10_pickup"]
 [ext_resource type="SpriteFrames" path="res://assets/characters/player_traveler_4dir_frames.tres" id="11_player_frames"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wp0k4"]
@@ -285,10 +285,10 @@ zoom = Vector2(2.2, 2.2)
 position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 
-[node name="PlayerSprite" type="AnimatedSprite2D" parent="Player"]
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="Player" unique_id=639623276]
+z_index = 10
 position = Vector2(0, -14)
 scale = Vector2(0.24, 0.24)
-z_index = 10
 sprite_frames = ExtResource("11_player_frames")
 animation = &"idle_down"
 
